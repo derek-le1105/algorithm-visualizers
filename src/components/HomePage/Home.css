@@ -1,0 +1,9 @@
+.module-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    max-width: 100%;
+    padding-top: 15%;
+    border-radius: 25px;
+    background-color: grey;
+}
