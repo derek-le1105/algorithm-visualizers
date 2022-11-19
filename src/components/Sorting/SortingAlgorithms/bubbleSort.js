@@ -1,9 +1,9 @@
-import asyncTimeout from '../HelperFunctions/asyncTimeout';
-import checkArray from '../HelperFunctions/checkArray';
+import asyncTimeout from "../HelperFunctions/asyncTimeout";
+import checkArray from "../HelperFunctions/checkArray";
 
-const prevColor = '#C9B79C';
-const compareColor = '#574638';
-const compareColor2 = '#B42D43';
+const prevColor = "white";
+const compareColor = "#76E7CD";
+const compareColor2 = "#FE0B0F";
 
 const bubbleSort = async ({
   randomArray,

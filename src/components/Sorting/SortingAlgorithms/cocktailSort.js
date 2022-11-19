@@ -1,8 +1,8 @@
-import asyncTimeout from '../HelperFunctions/asyncTimeout';
-import checkArray from '../HelperFunctions/checkArray';
+import asyncTimeout from "../HelperFunctions/asyncTimeout";
+import checkArray from "../HelperFunctions/checkArray";
 
-const prevColor = '#C9B79C';
-const compareColor2 = '#B42D43';
+const prevColor = "white";
+const compareColor2 = "#FE0B0F";
 
 const cocktailSort = async ({
   randomArray,

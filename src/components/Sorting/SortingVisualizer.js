@@ -1,5 +1,6 @@
 import "./SortingVisualizer.css";
 import SettingBar from "./SortingParameters/SettingBar/SettingBar.js";
+import NavBar from "../NavBar/NavBar";
 
 import bubbleSort from "./SortingAlgorithms/bubbleSort.js";
 import mergeSort from "./SortingAlgorithms/mergeSort";
@@ -30,7 +31,7 @@ const Visualizer = () => {
       const array = randomizeArray(randomArray.length);
       for (let i = 0; i < array.length; i++) {
         let bar = document.getElementById(`bar-${i}`);
-        bar.style.backgroundColor = "#C9B79C";
+        bar.style.backgroundColor = "white";
       }
 
       setRandomArray(array);
@@ -129,11 +130,29 @@ const Visualizer = () => {
 
   return (
     <>
-      <div className="sorting-information">
-        <span>
-          Array Comparisons: {arrayComparisons} <b>|</b> Array Accesses:{" "}
-          {arrayAccesses}
-        </span>
+      <NavBar location="sorting-visualizer"></NavBar>
+      <div className="visualizer-container">
+        <div className="sorting-information">
+          <span>
+            Array Comparisons: {arrayComparisons} <br />
+            Array Accesses: {arrayAccesses}
+          </span>
+        </div>
+
+        <div className="bar-container" id="container">
+          {randomArray.map((value, idx) => (
+            <div
+              className="array-bar"
+              key={idx}
+              id={`bar-${idx}`}
+              style={{
+                height: `${value}px`,
+                width: `${100 / randomArray.length}%`,
+                backgroundColor: "white",
+              }}
+            ></div>
+          ))}
+        </div>
       </div>
       <SettingBar
         isRunning={isRunning}
@@ -146,20 +165,6 @@ const Visualizer = () => {
         setArrayComparisons={setArrayComparisons}
         setArrayAccesses={setArrayAccesses}
       ></SettingBar>
-      <div className="bar-container" id="container">
-        {randomArray.map((value, idx) => (
-          <div
-            className="array-bar"
-            key={idx}
-            id={`bar-${idx}`}
-            style={{
-              height: `${value}px`,
-              width: `${100 / randomArray.length}%`,
-              backgroundColor: "#C9B79C",
-            }}
-          ></div>
-        ))}
-      </div>
     </>
   );
 };

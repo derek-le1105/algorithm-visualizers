@@ -1,7 +1,7 @@
-import asyncTimeout from './asyncTimeout';
+import asyncTimeout from "./asyncTimeout";
 
-const prevColor = '#C9B79C';
-const correctColor = `#899886`;
+const prevColor = "white";
+const correctColor = `#8AEA92`;
 
 const checkArray = async (array) => {
   let comparisons = 0,
