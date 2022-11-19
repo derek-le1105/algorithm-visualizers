@@ -1,0 +1,42 @@
+.dropdown {
+    position: relative;
+}
+  
+.algorithm-menu {
+    position: absolute;
+    bottom: 100%;
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 5px;
+    width: 100%;
+    border-radius: 5px;
+    overflow: auto;
+    max-height: 145px;
+}
+
+.algorithm-menu::-webkit-scrollbar{
+    display: none;
+}
+  
+.algorithm-menu > li {
+    margin: 0;
+    background-color: white;
+    
+}
+  
+.algorithm-menu > li:hover {
+    background-color: lightgray;
+}
+  
+.algorithm-menu > li > button {
+    height: 100%;
+    text-align: left;
+    
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 5px;
+    margin: 0;
+    font: inherit;
+    cursor: pointer;
+}
