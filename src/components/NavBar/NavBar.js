@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 const NavBar = () => {
   return (
     <div className="nav-bar">
-      <NavLink to="/" className="link-component">
+      <NavLink to="/" className="main">
         <h1>Algorithm Visualizer</h1>
       </NavLink>
       <div className="vertical-bar"></div>

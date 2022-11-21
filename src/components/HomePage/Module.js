@@ -1,23 +1,43 @@
 import "./Module.css";
 
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const changeGif = (title, gif) => {
-  document.getElementById(title).src = gif;
-};
-
-//TODO: figure out hover to show gif
-
 const Module = ({ image, gif, title, link }) => {
+  const [isHover, setHover] = useState(false);
+
+  const handleMouseEnter = () => {
+    setHover(true);
+  };
+
+  const handleMouseLeave = () => {
+    setHover(false);
+  };
+
+  const opacityStyle = {
+    opacity: isHover ? 0 : 1,
+  };
+
   return (
     <>
       <div className="module">
         <Link to={`/${link}`} style={{ color: "black" }}>
           <div className="title-container">
-            <span>{title}</span>
-            <div className="horizontal-bar"></div>
+            <div className="horizontal-bar">
+              <span>{title}</span>
+            </div>
           </div>
-          <img className="module-image" src={image} alt="alt"></img>
+          <div className="img-asset">
+            <img
+              className="module-image"
+              src={image}
+              alt="alt"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              style={opacityStyle}
+            ></img>
+            <img className="module-gif" src={gif} alt="gif"></img>
+          </div>
         </Link>
       </div>
     </>

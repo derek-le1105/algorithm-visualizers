@@ -6,10 +6,15 @@
     position: relative;transition: 250ms linear;
 }
 
+@media screen and (max-width:600px) {
+    .module{
+        transform: scale(0.9);
+    }
+}
+
 .module img{
     max-width:100%;
-    max-height:100%;
-    border-radius: 5px;
+    border-radius: 0 0 5px 5px;
     
 }
 
@@ -18,7 +23,7 @@
 }
 
 .title-container{
-    position:absolute;
+    position: relative;
     vertical-align: middle;
     width: 100%;
 }
@@ -30,7 +35,22 @@
 
 .horizontal-bar{
     width: 100%;
-    height: 1px;
-    background-color: black;
+    height: 42px;
+    border-radius: 5px 5px 0 0;
+    background: rgb(118, 118, 118);
     pointer-events: none;
+}
+ 
+.img-asset{
+    position:relative;
+}
+
+.module-image{
+    
+    position: absolute;
+} 
+
+.module-gif:hover{
+    opacity: 1;
+    position: relative;
 }

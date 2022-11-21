@@ -12,8 +12,8 @@ import NavBar from "../NavBar/NavBar";
 
 // TODO: Fix bug with holding down mouse while on a wall, gives error cursor sometimes
 
-let ROW = 21,
-  COLUMN = 49,
+let ROW = 36,
+  COLUMN = 81,
   START_NODE = [Math.floor(ROW / 2), Math.floor(COLUMN / 4)],
   END_NODE = [Math.floor(ROW / 2), Math.floor((3 * COLUMN) / 4)];
 

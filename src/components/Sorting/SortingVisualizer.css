@@ -9,8 +9,6 @@
 
 .visualizer-container{
   position: relative;
-  height: fit-content;
-  max-height: 100%;
   background-color: #333232;
 }
 
@@ -24,7 +22,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: flex-end;
-  height: 85vh;
+  height: 80vh;
   padding: 0 20px 100px;
   
 }

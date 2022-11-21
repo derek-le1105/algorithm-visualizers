@@ -5,7 +5,6 @@
     display: flex;
     background-color: rgb(30, 30, 30);
     color: white;
-    display: flex;
     align-items: center;
 }
 
@@ -16,8 +15,21 @@
     background-color: rgb(61, 61, 61);
 }
 
-.link-component{
-    margin: 0 10px;
+.link-component, .main{
+    margin: 0 15px;
     text-decoration: none;
     color: white;
+}
+
+@media screen and (max-width:600px) {
+    .nav-bar{
+        position: sticky;
+        position: -webkit-sticky;
+        top:0;
+        flex-direction: column;
+    }
+
+    .main{
+        margin: 0;
+    }
 }

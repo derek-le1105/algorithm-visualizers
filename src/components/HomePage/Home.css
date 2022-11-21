@@ -1,14 +1,3 @@
-.module1-container{
-    display: grid;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    max-height: 100%;
-    max-width: 100%;
-    padding: 5% 0;
-    background-color: grey;
-    overflow: auto;
-}
-
 .module-container{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -17,6 +6,13 @@
     grid-row-gap: 50px;
     max-height: 100%;
     max-width: 100%;
-    padding: 5% 0;
-    background-color: grey;
+    padding: 5%;
+    background-color: #C7CAD1;
+}
+
+@media screen and (max-width:1000px){
+    .module-container{
+        display: flex;
+        flex-wrap: wrap;
+    }
 }
