@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/https://derek-le1105.github.io/algorithm-visualizers/static/css/main.71267d16.css",
-    "main.js": "/https://derek-le1105.github.io/algorithm-visualizers/static/js/main.19e2adc2.js",
-    "static/js/787.a2ca6926.chunk.js": "/https://derek-le1105.github.io/algorithm-visualizers/static/js/787.a2ca6926.chunk.js",
-    "static/media/pathfind-gif.gif": "/https://derek-le1105.github.io/algorithm-visualizers/static/media/pathfind-gif.f89cda43ab7a73ba39e4.gif",
-    "static/media/pathfind.PNG": "/https://derek-le1105.github.io/algorithm-visualizers/static/media/pathfind.2b8e5608c1a78a535897.PNG",
-    "static/media/sort-gif.gif": "/https://derek-le1105.github.io/algorithm-visualizers/static/media/sort-gif.f7cf52fad052dc61cca8.gif",
-    "static/media/sort.PNG": "/https://derek-le1105.github.io/algorithm-visualizers/static/media/sort.1068745996d52a1c739a.PNG",
-    "index.html": "/https://derek-le1105.github.io/algorithm-visualizers/index.html",
-    "main.71267d16.css.map": "/https://derek-le1105.github.io/algorithm-visualizers/static/css/main.71267d16.css.map",
-    "main.19e2adc2.js.map": "/https://derek-le1105.github.io/algorithm-visualizers/static/js/main.19e2adc2.js.map",
-    "787.a2ca6926.chunk.js.map": "/https://derek-le1105.github.io/algorithm-visualizers/static/js/787.a2ca6926.chunk.js.map"
+    "main.css": "/algorithm-visualizers/static/css/main.71267d16.css",
+    "main.js": "/algorithm-visualizers/static/js/main.2c6753fe.js",
+    "static/js/787.a2ca6926.chunk.js": "/algorithm-visualizers/static/js/787.a2ca6926.chunk.js",
+    "static/media/pathfind-gif.gif": "/algorithm-visualizers/static/media/pathfind-gif.f89cda43ab7a73ba39e4.gif",
+    "static/media/pathfind.PNG": "/algorithm-visualizers/static/media/pathfind.2b8e5608c1a78a535897.PNG",
+    "static/media/sort-gif.gif": "/algorithm-visualizers/static/media/sort-gif.f7cf52fad052dc61cca8.gif",
+    "static/media/sort.PNG": "/algorithm-visualizers/static/media/sort.1068745996d52a1c739a.PNG",
+    "index.html": "/algorithm-visualizers/index.html",
+    "main.71267d16.css.map": "/algorithm-visualizers/static/css/main.71267d16.css.map",
+    "main.2c6753fe.js.map": "/algorithm-visualizers/static/js/main.2c6753fe.js.map",
+    "787.a2ca6926.chunk.js.map": "/algorithm-visualizers/static/js/787.a2ca6926.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.71267d16.css",
-    "static/js/main.19e2adc2.js"
+    "static/js/main.2c6753fe.js"
   ]
 }
