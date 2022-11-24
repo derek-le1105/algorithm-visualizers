@@ -43,6 +43,12 @@ const Visualizer = () => {
       const arrayChange = randomizeArray(value);
       setRandomArray(arrayChange);
     }
+    let bars = document.getElementsByClassName("array-bar");
+    console.log(bars);
+    for (var i = 0; i < bars.length; i++) {
+      if (bars[i].style.backgroundColor != "white")
+        bars[i].style.backgroundColor = "white";
+    }
   };
 
   const changeSortSpeed = (value) => {

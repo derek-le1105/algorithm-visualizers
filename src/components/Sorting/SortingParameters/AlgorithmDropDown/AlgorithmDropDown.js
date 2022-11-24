@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import './AlgorithmDropDown.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { useState } from "react";
+import "./AlgorithmDropDown.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretUp } from "@fortawesome/free-solid-svg-icons";
 
 const AlgorithmDropDown = ({ algorithm, setAlgorithm }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -11,19 +11,19 @@ const AlgorithmDropDown = ({ algorithm, setAlgorithm }) => {
   };
 
   return (
-    <div className="dropdown" style={{ margin: '15px' }}>
+    <div className="dropdown" style={{ margin: "15px" }}>
       <button
         onClick={handleMenuOpen}
-        style={{ height: `100%`, minWidth: '120px' }}
+        style={{ height: `100%`, minWidth: "120px" }}
       >
-        <span>{algorithm} </span>
+        <span style={{ fontWeight: "bold" }}>{algorithm} </span>
         {
           //got rotate transition from here
           //https://stackoverflow.com/questions/69656883/i-want-the-arrow-icon-to-flip-up-and-down-every-time-the-state-changes-and-i-wan
           <FontAwesomeIcon
             icon={faCaretUp}
             style={{
-              transition: 'all 0.5s ease',
+              transition: "all 0.5s ease",
               transform: `rotate(${menuOpen ? 0 : `0.5turn`})`,
             }}
           ></FontAwesomeIcon>
@@ -34,7 +34,7 @@ const AlgorithmDropDown = ({ algorithm, setAlgorithm }) => {
           <li className="menu-item">
             <button
               onClick={() => {
-                setAlgorithm('Bubble Sort');
+                setAlgorithm("Bubble Sort");
                 setMenuOpen(!menuOpen);
               }}
             >
@@ -44,7 +44,7 @@ const AlgorithmDropDown = ({ algorithm, setAlgorithm }) => {
           <li className="menu-item">
             <button
               onClick={() => {
-                setAlgorithm('Merge Sort');
+                setAlgorithm("Merge Sort");
                 setMenuOpen(!menuOpen);
               }}
             >
@@ -54,7 +54,7 @@ const AlgorithmDropDown = ({ algorithm, setAlgorithm }) => {
           <li className="menu-item">
             <button
               onClick={() => {
-                setAlgorithm('Selection Sort');
+                setAlgorithm("Selection Sort");
                 setMenuOpen(!menuOpen);
               }}
             >
@@ -64,7 +64,7 @@ const AlgorithmDropDown = ({ algorithm, setAlgorithm }) => {
           <li className="menu-item">
             <button
               onClick={() => {
-                setAlgorithm('Quick Sort');
+                setAlgorithm("Quick Sort");
                 setMenuOpen(!menuOpen);
               }}
             >
@@ -74,7 +74,7 @@ const AlgorithmDropDown = ({ algorithm, setAlgorithm }) => {
           <li className="menu-item">
             <button
               onClick={() => {
-                setAlgorithm('Bogo Sort');
+                setAlgorithm("Bogo Sort");
                 setMenuOpen(!menuOpen);
               }}
             >
@@ -84,7 +84,7 @@ const AlgorithmDropDown = ({ algorithm, setAlgorithm }) => {
           <li className="menu-item">
             <button
               onClick={() => {
-                setAlgorithm('Cocktail Sort');
+                setAlgorithm("Cocktail Sort");
                 setMenuOpen(!menuOpen);
               }}
             >
@@ -94,7 +94,7 @@ const AlgorithmDropDown = ({ algorithm, setAlgorithm }) => {
           <li className="menu-item">
             <button
               onClick={() => {
-                setAlgorithm('Insertion Sort');
+                setAlgorithm("Insertion Sort");
                 setMenuOpen(!menuOpen);
               }}
             >
