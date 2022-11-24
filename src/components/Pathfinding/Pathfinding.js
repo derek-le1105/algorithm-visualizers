@@ -75,7 +75,6 @@ const Visualizer = () => {
   };
 
   const onMouseUp = () => {
-    console.log("false");
     if (!isFinding) setMouseHeld(false);
   };
 

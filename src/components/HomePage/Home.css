@@ -1,13 +1,31 @@
+.main-body{
+    background-color: #C7CAD1;
+    text-align: center;
+}
+
+h1{
+    margin: 0;
+    padding: 20px 0;
+}
+
+hr{
+    height:1px;
+    border-width:0;
+    color:gray;
+    background-color:gray;
+    margin: 0 10%;
+}
+
 .module-container{
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
     grid-column-gap: 50px;
     grid-row-gap: 50px;
     max-height: 100%;
     max-width: 100%;
-    padding: 5%;
-    background-color: #C7CAD1;
+    padding: 4%;
+    
 }
 
 @media screen and (max-width:1000px){
