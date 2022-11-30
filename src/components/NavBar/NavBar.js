@@ -1,6 +1,8 @@
 import "./NavBar.css";
 
 import { NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 const NavBar = () => {
   return (
@@ -27,6 +29,7 @@ const NavBar = () => {
       >
         <h4>Pathfinding Visualizer</h4>
       </NavLink>
+      <FontAwesomeIcon icon={faBars} className="mobile-menu"></FontAwesomeIcon>
     </div>
   );
 };
