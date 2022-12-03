@@ -1,6 +1,5 @@
-import Button from './Button'
-import AlgorithmDropDown from '../AlgorithmDropDown/AlgorithmDropDown'
-import './SettingBar.css'
+import Button from "./Button";
+import AlgorithmDropDown from "../AlgorithmDropDown/AlgorithmDropDown";
 
 const SettingBar = ({
   isFinding,
@@ -17,7 +16,7 @@ const SettingBar = ({
 }) => {
   return (
     <>
-      <div className="setting-bar" style={{ maxWidth: '100%' }}>
+      <div className="setting-bar" style={{ maxWidth: "100%" }}>
         <AlgorithmDropDown
           item={algorithm}
           setItem={setAlgorithm}
@@ -34,7 +33,7 @@ const SettingBar = ({
         <Button title="Visualize" task={startPathFind}></Button>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SettingBar
+export default SettingBar;

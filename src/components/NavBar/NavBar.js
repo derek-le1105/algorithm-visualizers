@@ -29,6 +29,15 @@ const NavBar = () => {
       >
         <h4>Pathfinding Visualizer</h4>
       </NavLink>
+      <NavLink
+        to="/eight-tile"
+        className="link-component"
+        style={({ isActive }) => ({
+          color: isActive ? "white" : "grey",
+        })}
+      >
+        <h4>Eight Tile</h4>
+      </NavLink>
       <FontAwesomeIcon icon={faBars} className="mobile-menu"></FontAwesomeIcon>
     </div>
   );

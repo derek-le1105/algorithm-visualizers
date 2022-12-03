@@ -34,7 +34,7 @@ const Home = () => {
             image={pathfind}
             gif={pathfindGif}
             title={"8 Tile Solver"}
-            link={"pathfinding-visualizer"}
+            link={"eight-tile"}
           ></Module>
         </div>
       </div>

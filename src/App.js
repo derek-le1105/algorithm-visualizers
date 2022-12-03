@@ -1,6 +1,7 @@
 import { HashRouter as BrowserRouter, Routes, Route } from "react-router-dom";
 import SortingVisualizer from "./components/Sorting/SortingVisualizer";
 import PathfindingVisualizer from "./components/Pathfinding/Pathfinding";
+import EightTile from "./components/EightTile/EightTile";
 import Home from "./components/HomePage/Home";
 import "./App.css";
 
@@ -14,6 +15,7 @@ function App() {
           path="/pathfinding-visualizer"
           element={<PathfindingVisualizer />}
         />
+        <Route path="/eight-tile" element={<EightTile />} />
       </Routes>
     </BrowserRouter>
   );
