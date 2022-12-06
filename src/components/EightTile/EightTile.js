@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SettingBar from "../HelperComponents/SettingBar";
+import TileSetting from "./Components/TileSetting";
 import NavBar from "../NavBar/NavBar";
 import "./EightTile.css";
 
@@ -16,7 +16,7 @@ const EightTile = () => {
         <div
           className="introduction-container"
           style={{
-            backdropFilter: "blur(2px)",
+            backdropFilter: "blur(1px)",
           }}
         >
           <div className="tutorial-element">
@@ -24,29 +24,8 @@ const EightTile = () => {
           </div>
         </div>
       )}
-      <div className="tile-component">
-        <NavBar location="eight-tile"></NavBar>
-        <div className="tile-board">
-          <table className="board">
-            <tr>
-              <th>1</th>
-              <th>2</th>
-              <th>3</th>
-            </tr>
-            <tr>
-              <th>4</th>
-              <th>5</th>
-              <th>6</th>
-            </tr>
-            <tr>
-              <th>7</th>
-              <th>8</th>
-              <th>9</th>
-            </tr>
-          </table>
-        </div>
-        <SettingBar></SettingBar>
-      </div>
+      <NavBar location="eight-tile"></NavBar>
+      <TileSetting></TileSetting>
     </>
   );
 };
