@@ -39,17 +39,15 @@ const TileSetting = () => {
   const getUserInput = (isUser) => {
     let currUser = isUser ? "initial" : "goal";
     let userPrompt = `Input ${currUser} board from top-left to bottom-right with no spaces\nFor example: "123456780"`;
-    let regex = /^(?!.*(.).*\\1)\\d{9}/;
+    const regex = /^(?!.*(.).*\1)[0-8]{9}/;
     let regexPassed = true;
     let input;
     do {
-      input = prompt(userPrompt).split("");
+      input = prompt(userPrompt, "123456780");
       if (!regex.test(input)) alert("Input is not eligible");
-      else if (input.length < 9 || input.length > 9)
-        alert("Input length is no eligible");
       else regexPassed = false;
     } while (regexPassed);
-
+    input = input.split("");
     if (isUser) setInitialBoard(input);
     else setGoalBoard(input);
   };
