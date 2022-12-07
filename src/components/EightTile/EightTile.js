@@ -5,6 +5,7 @@ import "./EightTile.css";
 
 const EightTile = () => {
   const [tutorialClicked, setTutorialClicked] = useState(false);
+  const [board, setBoard] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8]);
 
   const handleTutorialClick = () => {
     setTutorialClicked(true);
@@ -12,7 +13,7 @@ const EightTile = () => {
 
   return (
     <>
-      {!tutorialClicked && (
+      {/* {!tutorialClicked && (
         <div
           className="introduction-container"
           style={{
@@ -23,9 +24,18 @@ const EightTile = () => {
             <button onClick={handleTutorialClick}>Click me</button>
           </div>
         </div>
-      )}
+      )} */}
       <NavBar location="eight-tile"></NavBar>
       <TileSetting></TileSetting>
+      <div className="display-container">
+        <div className="tiles" id="main-board">
+          {board.map((value, idx) => (
+            <div className={`tile-${value}`} key={idx}>
+              {value}
+            </div>
+          ))}
+        </div>
+      </div>
     </>
   );
 };

@@ -30,6 +30,7 @@
 }
 
 .tiles{
+    outline: black solid 2px;
     min-width: 150px;
     min-height: 150px;
     height: fit-content;
@@ -56,4 +57,11 @@
 
 .algorithm-selector > * {
     margin-bottom: 10px;
+}
+
+.controls-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

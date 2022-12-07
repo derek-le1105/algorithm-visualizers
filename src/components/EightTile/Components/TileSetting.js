@@ -1,5 +1,7 @@
 import "./TileSetting.css";
 
+import search from "../HelperFiles/search";
+
 import { useState } from "react";
 
 const inital = [1, 2, 3, 4, 5, 6, 7, 8, 0];
@@ -8,6 +10,8 @@ const goal = [1, 2, 3, 4, 5, 6, 7, 8, 0];
 const TileSetting = () => {
   const [initialBoard, setInitialBoard] = useState(inital);
   const [goalBoard, setGoalBoard] = useState(goal);
+  const [algorithm, setAlgorithm] = useState("A* Search");
+  const [heuristic, setHeuristic] = useState("Uniform Cost Search");
 
   const getInversionCount = (arr) => {
     let inv_count = 0;
@@ -31,25 +35,61 @@ const TileSetting = () => {
         currIdx--;
         [temp[currIdx], temp[randomIdx]] = [temp[randomIdx], temp[currIdx]];
       }
-    } while (!getInversionCount(temp));
+    } while (!getInversionCount(temp)); //makes sure we generate a board that is solvable
 
     setInitialBoard(temp.concat());
   };
 
   const getUserInput = (isUser) => {
     let currUser = isUser ? "initial" : "goal";
-    let userPrompt = `Input ${currUser} board from top-left to bottom-right with no spaces\nFor example: "123456780"`;
+    let userPrompt = `Input ${currUser} board from top-left to bottom-right with no spaces\nFor example: "123456780"\nOr you can type 'very easy', 'easy', 'doable', or 'hard' for presets`;
     const regex = /^(?!.*(.).*\1)[0-8]{9}/;
     let regexPassed = true;
     let input;
     do {
       input = prompt(userPrompt, "123456780");
-      if (!regex.test(input)) alert("Input is not eligible");
-      else regexPassed = false;
+      switch (input) {
+        case "very easy":
+          input = "123456708";
+          regexPassed = false;
+          break;
+        case "easy":
+          input = "120453786";
+          regexPassed = false;
+          break;
+        case "doable":
+          input = "012453786";
+          regexPassed = false;
+          break;
+        case "hard":
+          input = "871602543";
+          regexPassed = false;
+          break;
+        default:
+          if (!regex.test(input)) alert("Input is not eligible");
+          break;
+      }
     } while (regexPassed);
     input = input.split("");
+    for (let i = 0; i < input.length; i++)
+      input.splice(i, 1, parseInt(input[i]));
+
     if (isUser) setInitialBoard(input);
     else setGoalBoard(input);
+  };
+
+  const getAlgorithmChange = (e) => {
+    console.log(e.target.value);
+    setAlgorithm(e.target.value);
+  };
+
+  const getHeuristicChange = (e) => {
+    console.log(e.target.value);
+    setHeuristic(e.target.value);
+  };
+
+  const startSearch = () => {
+    search(initialBoard, goalBoard, algorithm, heuristic);
   };
 
   return (
@@ -87,17 +127,38 @@ const TileSetting = () => {
 
         <div className="algorithm-selector">
           <span>Algorithm</span>
-          <select className="algorithm-dropdown">
+          <select
+            className="algorithm-dropdown"
+            value={algorithm}
+            onChange={(e) => getAlgorithmChange(e)}
+          >
             <option value="A* Search">A* Search</option>
             <option value="Breadth First Search">Breadth First Search</option>
             <option value="Depth First Search">Depth First Search</option>
           </select>
-          <span>Heuristic Function</span>
-          <select className="heuristic-dropdown">
-            <option value="Misplaced Tile">Misplaced Tile</option>
-            <option value="Manhatten Distance">Manhatten Distance</option>
-            <option value="Uniformed Cost Search">Uniformed Cost Search</option>
-          </select>
+
+          {algorithm === "A* Search" && (
+            <>
+              <span>Heuristic Function</span>
+              <select
+                className="heuristic-dropdown"
+                value={heuristic}
+                onChange={(e) => getHeuristicChange(e)}
+              >
+                <option value="Uniform Cost Search">Uniform Cost Search</option>
+                <option value="Misplaced Tile">Misplaced Tile</option>
+                <option value="Manhatten Distance">Manhatten Distance</option>
+              </select>
+            </>
+          )}
+        </div>
+        <hr id="horizontal-bar"></hr>
+        <div className="controls-container">
+          <span>Controls</span>
+          <div className="buttons">
+            <button onClick={startSearch}>Start Search</button>
+            <button>Reset</button>
+          </div>
         </div>
       </div>
     </>
