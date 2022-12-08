@@ -65,6 +65,8 @@ const aStarSearch = async (initialBoard, goalBoard, heuristic) => {
         maxQueueSize = nodesQueue.pQueue.length;
     }
   }
+
+  return initialState;
 };
 
 const changeBoard = async (node) => {

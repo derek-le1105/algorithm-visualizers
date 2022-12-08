@@ -12,6 +12,7 @@ const TileSetting = () => {
   const [goalBoard, setGoalBoard] = useState(goal);
   const [algorithm, setAlgorithm] = useState("A* Search");
   const [heuristic, setHeuristic] = useState("Uniform Cost Search");
+  const [isSearching, setIsSearching] = useState(false);
 
   const getInversionCount = (arr) => {
     let inv_count = 0;
@@ -88,8 +89,12 @@ const TileSetting = () => {
     setHeuristic(e.target.value);
   };
 
-  const startSearch = () => {
-    search(initialBoard, goalBoard, algorithm, heuristic);
+  const startSearch = async () => {
+    if (!isSearching) {
+      setIsSearching(true);
+      await search(initialBoard, goalBoard, algorithm, heuristic);
+      setIsSearching(false);
+    }
   };
 
   return (

@@ -2,14 +2,35 @@ import aStarSearch from "./aStarSearch";
 import bfs from "./bfs";
 import dfs from "./dfs";
 
-const search = (initialBoard, goalBoard, algorithm, heuristic) => {
+const search = async (initialBoard, goalBoard, algorithm, heuristic) => {
+  const tempInitial = [...initialBoard];
+  const tempGoal = [...goalBoard];
   const newInitial = [];
   const newGoal = [];
-  while (initialBoard.length) newInitial.push(initialBoard.splice(0, 3));
-  while (goalBoard.length) newGoal.push(goalBoard.splice(0, 3));
-  if (algorithm === "A* Search") aStarSearch(newInitial, newGoal, heuristic);
-  else if (algorithm === "Breadth First Search") bfs();
-  else if (algorithm === "Depth First Search") dfs();
+  let node;
+
+  //make arrays 2d for checking in search
+  while (tempInitial.length) newInitial.push(tempInitial.splice(0, 3));
+  while (tempGoal.length) newGoal.push(tempGoal.splice(0, 3));
+
+  switch (algorithm) {
+    case "A* Search":
+      await aStarSearch(newInitial, newGoal, heuristic);
+      break;
+
+    case "Breadth First Search":
+      node = bfs();
+      break;
+
+    case "Depth First Search":
+      node = dfs();
+      break;
+
+    default:
+      break;
+  }
+
+  console.log(node);
 };
 
 export default search;
