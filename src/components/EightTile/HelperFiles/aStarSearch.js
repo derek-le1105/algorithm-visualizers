@@ -139,7 +139,7 @@ const expand = (puzzle, puzzleOps) => {
   if (opsToRemove.length !== 4) expandedNodes += 1;
 
   for (var badOp of opsToRemove) {
-    puzzleOps.splice(puzzleOps.indexOf(badOp));
+    puzzleOps.splice(puzzleOps.indexOf(badOp), 1);
   }
 
   puzzle.insertIntoTree(puzzle, puzzleOps, expandedChildren);
@@ -151,11 +151,6 @@ const isRepeated = (puzzleCopy) => {
     .map((innerArray) => innerArray.join(""))
     .join("");
   for (var state of repeatedPuzzles) {
-    // for (let i = 0; i < puzzleCopy.length; i++) {
-    //   for (let j = 0; j < puzzleCopy[0].length; j++) {
-    //     if (puzzleCopy[i][j] !== state[i][j]) return false;
-    //   }
-    // }
     if (puzzleStr === state) return true;
   }
   return false;

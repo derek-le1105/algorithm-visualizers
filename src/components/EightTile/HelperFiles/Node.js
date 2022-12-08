@@ -49,17 +49,17 @@ class Node {
   insertIntoTree(parent, puzzleOps, expandedChildren) {
     for (var op of puzzleOps) {
       if (op === "Left") {
-        this.left = expandedChildren[puzzleOps.indexOf("Left")];
-        this.left.parent = parent;
+        parent.left = expandedChildren[puzzleOps.indexOf("Left")];
+        parent.left.parent = parent;
       } else if (op === "Right") {
-        this.right = expandedChildren[puzzleOps.indexOf("Right")];
-        this.right.parent = parent;
+        parent.right = expandedChildren[puzzleOps.indexOf("Right")];
+        parent.right.parent = parent;
       } else if (op === "Up") {
-        this.up = expandedChildren[puzzleOps.indexOf("Up")];
-        this.up.parent = parent;
+        parent.up = expandedChildren[puzzleOps.indexOf("Up")];
+        parent.up.parent = parent;
       } else if (op === "Down") {
-        this.down = expandedChildren[puzzleOps.indexOf("Down")];
-        this.down.parent = parent;
+        parent.down = expandedChildren[puzzleOps.indexOf("Down")];
+        parent.down.parent = parent;
       }
     }
   }
