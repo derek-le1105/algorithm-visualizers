@@ -13,6 +13,7 @@ const TileSetting = () => {
   const [algorithm, setAlgorithm] = useState("A* Search");
   const [heuristic, setHeuristic] = useState("Uniform Cost Search");
   const [isSearching, setIsSearching] = useState(false);
+  const [isStop, setIsStop] = useState(false);
 
   const getInversionCount = (arr) => {
     let inv_count = 0;
@@ -92,9 +93,23 @@ const TileSetting = () => {
   const startSearch = async () => {
     if (!isSearching) {
       setIsSearching(true);
-      await search(initialBoard, goalBoard, algorithm, heuristic);
+      console.log("search: ", isStop);
+      let node = await search(
+        initialBoard,
+        goalBoard,
+        algorithm,
+        heuristic,
+        isStop
+      );
       setIsSearching(false);
     }
+  };
+
+  const generateTree = (node) => {};
+
+  const stopSearch = () => {
+    console.log("stop: ", isStop);
+    setIsStop(!isStop);
   };
 
   return (
@@ -103,15 +118,19 @@ const TileSetting = () => {
         <div className="tile-board user">
           <span>Initial Board</span>
 
-          <div className="tiles">
+          <div className="tiles" id="initial-board">
             {initialBoard.map((value, idx) => (
               <div className={`tile-${value}`} key={idx}>
                 {value}
               </div>
             ))}
           </div>
-          <button onClick={() => getUserInput(true)}>Edit Board</button>
-          <button onClick={randomizeBoard}>Randomize Board</button>
+          <button onClick={() => getUserInput(true)} disabled={isSearching}>
+            Edit Board
+          </button>
+          <button onClick={randomizeBoard} disabled={isSearching}>
+            Randomize Board
+          </button>
         </div>
 
         <hr id="horizontal-bar"></hr>
@@ -161,8 +180,11 @@ const TileSetting = () => {
         <div className="controls-container">
           <span>Controls</span>
           <div className="buttons">
-            <button onClick={startSearch}>Start Search</button>
+            <button onClick={startSearch} disabled={isSearching}>
+              Start Search
+            </button>
             <button>Reset</button>
+            <button onClick={stopSearch}>Stop</button>
           </div>
         </div>
       </div>

@@ -2,7 +2,13 @@ import aStarSearch from "./aStarSearch";
 import bfs from "./bfs";
 import dfs from "./dfs";
 
-const search = async (initialBoard, goalBoard, algorithm, heuristic) => {
+const search = async (
+  initialBoard,
+  goalBoard,
+  algorithm,
+  heuristic,
+  isStop
+) => {
   const tempInitial = [...initialBoard];
   const tempGoal = [...goalBoard];
   const newInitial = [];
@@ -15,7 +21,7 @@ const search = async (initialBoard, goalBoard, algorithm, heuristic) => {
 
   switch (algorithm) {
     case "A* Search":
-      await aStarSearch(newInitial, newGoal, heuristic);
+      node = await aStarSearch(newInitial, newGoal, heuristic, isStop);
       break;
 
     case "Breadth First Search":
@@ -30,7 +36,7 @@ const search = async (initialBoard, goalBoard, algorithm, heuristic) => {
       break;
   }
 
-  console.log(node);
+  return node;
 };
 
 export default search;

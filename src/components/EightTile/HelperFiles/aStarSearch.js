@@ -21,7 +21,7 @@ const indexList = [
   [2, 2],
 ];
 
-const aStarSearch = async (initialBoard, goalBoard, heuristic) => {
+const aStarSearch = async (initialBoard, goalBoard, heuristic, isStop) => {
   currHeuristic = heuristic;
   goal = goalBoard;
   repeatedPuzzles = [];
@@ -35,8 +35,10 @@ const aStarSearch = async (initialBoard, goalBoard, heuristic) => {
     initialState.problem.map((innerArray) => innerArray.join("")).join("")
   );
   let maxQueueSize = 0;
+  console.log("begin: ", isStop);
 
-  while (!nodesQueue.isEmpty()) {
+  while (!nodesQueue.isEmpty() && !isStop) {
+    console.log("a: ", isStop);
     var node = nodesQueue.get();
 
     await changeBoard(node);
@@ -71,7 +73,7 @@ const aStarSearch = async (initialBoard, goalBoard, heuristic) => {
 
 const changeBoard = async (node) => {
   await asyncTimeout({ timeout: 1 });
-  let board = document.getElementById("main-board");
+  let board = document.getElementById("initial-board");
   while (board.firstChild) board.removeChild(board.firstChild);
 
   let count = 0;
