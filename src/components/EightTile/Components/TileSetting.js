@@ -1,6 +1,7 @@
 import "./TileSetting.css";
 
 import search from "../HelperFiles/search";
+import ControlButtons from "./ControlButtons";
 
 import { useState } from "react";
 
@@ -13,7 +14,6 @@ const TileSetting = () => {
   const [algorithm, setAlgorithm] = useState("A* Search");
   const [heuristic, setHeuristic] = useState("Uniform Cost Search");
   const [isSearching, setIsSearching] = useState(false);
-  const [isStop, setIsStop] = useState(false);
 
   const getInversionCount = (arr) => {
     let inv_count = 0;
@@ -90,27 +90,16 @@ const TileSetting = () => {
     setHeuristic(e.target.value);
   };
 
-  const startSearch = async () => {
+  const startSearch = () => {
     if (!isSearching) {
       setIsSearching(true);
-      console.log("search: ", isStop);
-      let node = await search(
-        initialBoard,
-        goalBoard,
-        algorithm,
-        heuristic,
-        isStop
-      );
+      console.log("search: ");
+      let node = search(initialBoard, goalBoard, algorithm, heuristic);
       setIsSearching(false);
     }
   };
 
   const generateTree = (node) => {};
-
-  const stopSearch = () => {
-    console.log("stop: ", isStop);
-    setIsStop(!isStop);
-  };
 
   return (
     <>
@@ -180,11 +169,12 @@ const TileSetting = () => {
         <div className="controls-container">
           <span>Controls</span>
           <div className="buttons">
-            <button onClick={startSearch} disabled={isSearching}>
-              Start Search
-            </button>
-            <button>Reset</button>
-            <button onClick={stopSearch}>Stop</button>
+            <ControlButtons
+              initialBoard={initialBoard}
+              goalBoard={goalBoard}
+              algorithm={algorithm}
+              heuristic={heuristic}
+            ></ControlButtons>
           </div>
         </div>
       </div>

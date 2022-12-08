@@ -2,13 +2,90 @@ import aStarSearch from "./aStarSearch";
 import bfs from "./bfs";
 import dfs from "./dfs";
 
-const search = async (
-  initialBoard,
-  goalBoard,
-  algorithm,
-  heuristic,
-  isStop
-) => {
+import Puzzle from "./Puzzle";
+import PriorityQueue from "./PriorityQueue";
+import Stack from "./Stack";
+import Node from "./Node";
+
+const search = async (initialBoard, goalBoard, algorithm, heuristic) => {
+  class Search {
+    constructor(
+      puzzle,
+      goal,
+      nodesQueue,
+      repeatedPuzzles,
+      expandedNodes,
+      heuristic
+    ) {
+      this.initialState = new Node(new Puzzle(puzzle).state);
+      this.goal = goal;
+      this.heuristic = heuristic;
+      this.repeatedPuzzles = repeatedPuzzles;
+      this.expandedNodes = expandedNodes;
+      this.nodesQueue = nodesQueue;
+
+      const uniformCostSearch = (nodes, expandedChildren) => {
+        for (var child of expandedChildren) {
+          child.setGN(child.getDepth());
+          child.setFN();
+          nodes.insert(child);
+        }
+      };
+
+      const manhattanDistance = (nodes, expandedChildren, isMisplaced) => {
+        //prettier-ignore
+        const indexList = [
+          [0, 0],[0, 1],[0, 2],
+          [1, 0],[1, 1],[1, 2],
+          [2, 0],[2, 1],[2, 2],
+        ];
+
+        for (var child of expandedChildren) {
+          let totalDistance = 0;
+          for (var index of indexList) {
+            let i,
+              j = index;
+            if (
+              child.problem[i][j] !== goal[i][j] &&
+              child.problem[i][j] !== 0
+            ) {
+              if (isMisplaced) {
+                totalDistance += 1;
+              } else {
+                let a,
+                  b = indexList[child.problem[i][j] - 1];
+                totalDistance += Math.abs(a - i) + Math.abs(b - j);
+              }
+            }
+          }
+          child.setGN(child.getDepth());
+          child.setHN(totalDistance);
+          child.setFN();
+          nodes.insert(child);
+        }
+      };
+
+      function queueingFunction(nodes, expandedChildren) {
+        switch (this.heuristic) {
+          case "Uniform Cost Search":
+            uniformCostSearch(nodes, expandedChildren);
+            break;
+
+          case "Misplaced Tile":
+            manhattanDistance(nodes, expandedChildren, true);
+            break;
+
+          case "Manhattan Distance":
+            manhattanDistance(nodes, expandedChildren, false);
+            break;
+
+          default:
+            break;
+        }
+      }
+    }
+  }
+
   const tempInitial = [...initialBoard];
   const tempGoal = [...goalBoard];
   const newInitial = [];
@@ -21,7 +98,7 @@ const search = async (
 
   switch (algorithm) {
     case "A* Search":
-      node = await aStarSearch(newInitial, newGoal, heuristic, isStop);
+      node = aStarSearch(newInitial, newGoal, heuristic);
       break;
 
     case "Breadth First Search":

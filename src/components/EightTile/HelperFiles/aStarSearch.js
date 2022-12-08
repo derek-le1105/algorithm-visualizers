@@ -21,7 +21,7 @@ const indexList = [
   [2, 2],
 ];
 
-const aStarSearch = async (initialBoard, goalBoard, heuristic, isStop) => {
+const aStarSearch = (initialBoard, goalBoard, heuristic) => {
   currHeuristic = heuristic;
   goal = goalBoard;
   repeatedPuzzles = [];
@@ -35,9 +35,13 @@ const aStarSearch = async (initialBoard, goalBoard, heuristic, isStop) => {
     initialState.problem.map((innerArray) => innerArray.join("")).join("")
   );
   let maxQueueSize = 0;
-  console.log("begin: ", isStop);
+  let nInterval;
 
-  while (!nodesQueue.isEmpty() && !isStop) {
+  if (!nodesQueue.isEmpty()) {
+    nInterval = setInterval(searchTiles, 10, puzzle, nodesQueue, maxQueueSize);
+  }
+
+  /*while (!nodesQueue.isEmpty() && !isStop) {
     console.log("a: ", isStop);
     var node = nodesQueue.get();
 
@@ -66,13 +70,42 @@ const aStarSearch = async (initialBoard, goalBoard, heuristic, isStop) => {
       if (nodesQueue.pQueue.length > maxQueueSize)
         maxQueueSize = nodesQueue.pQueue.length;
     }
-  }
+  }*/
 
   return initialState;
 };
 
-const changeBoard = async (node) => {
-  await asyncTimeout({ timeout: 1 });
+const searchTiles = (puzzle, nodesQueue, maxQueueSize) => {
+  var node = nodesQueue.get();
+  changeBoard(node);
+  node.maxQueueSize = maxQueueSize;
+  node.numExpandedNodes = expandedNodes;
+
+  if (isGoalState(node)) {
+    alert("found goal state");
+    const goalStack = new Stack();
+    getSolutionPath(node, goalStack);
+
+    while (!goalStack.isEmpty()) {
+      let solutionNode = goalStack.pop();
+      console.log(
+        `Optimal state to expand with g(n) of ${solutionNode.getGN()} and h(n) of ${solutionNode.getHN()} is: `
+      );
+      printTable(solutionNode.problem);
+    }
+  } else {
+    //console.log(node);
+    queueingFunction(
+      nodesQueue,
+      expand(node, puzzle.getOperators(node.problem))
+    );
+    if (nodesQueue.pQueue.length > maxQueueSize)
+      maxQueueSize = nodesQueue.pQueue.length;
+  }
+};
+
+const changeBoard = (node) => {
+  //await asyncTimeout({ timeout: 1 });
   let board = document.getElementById("initial-board");
   while (board.firstChild) board.removeChild(board.firstChild);
 
