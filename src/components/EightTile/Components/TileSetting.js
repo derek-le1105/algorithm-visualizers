@@ -2,18 +2,20 @@ import "./TileSetting.css";
 
 import search from "../HelperFiles/search";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const inital = [1, 2, 3, 4, 5, 6, 7, 8, 0];
 const goal = [1, 2, 3, 4, 5, 6, 7, 8, 0];
 
-const TileSetting = () => {
+const TileSetting = ({ setTreeData, setGoalData }) => {
   const [initialBoard, setInitialBoard] = useState(inital);
   const [goalBoard, setGoalBoard] = useState(goal);
   const [algorithm, setAlgorithm] = useState("A* Search");
   const [heuristic, setHeuristic] = useState("Uniform Cost Search");
   const [isSearching, setIsSearching] = useState(false);
   const [isStop, setIsStop] = useState(false);
+  const [depth, setDepth] = useState(0);
+  const [nodeCount, setNodeCount] = useState(0);
 
   const getInversionCount = (arr) => {
     let inv_count = 0;
@@ -51,6 +53,10 @@ const TileSetting = () => {
     do {
       input = prompt(userPrompt, "123456780");
       switch (input) {
+        case null:
+          input = "123456780";
+          regexPassed = false;
+          break;
         case "very easy":
           input = "123456708";
           regexPassed = false;
@@ -93,24 +99,28 @@ const TileSetting = () => {
   const startSearch = async () => {
     if (!isSearching) {
       setIsSearching(true);
-      console.log("search: ", isStop);
-      let node = await search(
+      let nodeData = await search(
         initialBoard,
         goalBoard,
         algorithm,
         heuristic,
-        isStop
+        isStop,
+        setDepth,
+        setNodeCount
       );
+      setTreeData(nodeData[0]);
+      setGoalData(nodeData[1]);
       setIsSearching(false);
     }
   };
 
-  const generateTree = (node) => {};
-
   const stopSearch = () => {
-    console.log("stop: ", isStop);
     setIsStop(!isStop);
   };
+
+  useEffect(() => {
+    setTreeData(initialBoard);
+  }, [initialBoard]);
 
   return (
     <>
@@ -171,7 +181,7 @@ const TileSetting = () => {
               >
                 <option value="Uniform Cost Search">Uniform Cost Search</option>
                 <option value="Misplaced Tile">Misplaced Tile</option>
-                <option value="Manhatten Distance">Manhatten Distance</option>
+                <option value="Manhattan Distance">Manhattan Distance</option>
               </select>
             </>
           )}
@@ -186,6 +196,11 @@ const TileSetting = () => {
             <button>Reset</button>
             <button onClick={stopSearch}>Stop</button>
           </div>
+        </div>
+        <hr id="horizontal-bar"></hr>
+        <div className="info-container">
+          <span>{`Depth: ${depth}`}</span>
+          <span>{`Nodes Traveled: ${nodeCount}`}</span>
         </div>
       </div>
     </>

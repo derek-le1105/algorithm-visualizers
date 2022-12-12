@@ -8,6 +8,7 @@ var currHeuristic;
 var goal;
 var repeatedPuzzles;
 var expandedNodes;
+let nodeCount = 0;
 
 const indexList = [
   [0, 0],
@@ -21,7 +22,14 @@ const indexList = [
   [2, 2],
 ];
 
-const aStarSearch = async (initialBoard, goalBoard, heuristic, isStop) => {
+const aStarSearch = async (
+  initialBoard,
+  goalBoard,
+  heuristic,
+  isStop,
+  setDepth,
+  setNodeCount
+) => {
   currHeuristic = heuristic;
   goal = goalBoard;
   repeatedPuzzles = [];
@@ -29,46 +37,36 @@ const aStarSearch = async (initialBoard, goalBoard, heuristic, isStop) => {
   const puzzle = new Puzzle(initialBoard);
   const initialState = new Node(puzzle.state);
   const nodesQueue = new PriorityQueue();
+  const goalStack = [];
   queueingFunction(nodesQueue, [initialState]);
 
   repeatedPuzzles.push(
     initialState.problem.map((innerArray) => innerArray.join("")).join("")
   );
   let maxQueueSize = 0;
-  console.log("begin: ", isStop);
 
   while (!nodesQueue.isEmpty() && !isStop) {
-    console.log("a: ", isStop);
+    setNodeCount(++nodeCount);
     var node = nodesQueue.get();
 
     await changeBoard(node);
     node.maxQueueSize = maxQueueSize;
     node.numExpandedNodes = expandedNodes;
     if (isGoalState(node)) {
-      alert("found");
-      const goalStack = new Stack();
       getSolutionPath(node, goalStack);
-
-      while (!goalStack.isEmpty()) {
-        let solutionNode = goalStack.pop();
-        console.log(
-          `Optimal state to expand with g(n) of ${solutionNode.getGN()} and h(n) of ${solutionNode.getHN()} is: `
-        );
-        printTable(solutionNode.problem);
-      }
       break;
     } else {
       //console.log(node);
       queueingFunction(
         nodesQueue,
-        expand(node, puzzle.getOperators(node.problem))
+        expand(node, puzzle.getOperators(node.problem), setNodeCount)
       );
       if (nodesQueue.pQueue.length > maxQueueSize)
         maxQueueSize = nodesQueue.pQueue.length;
     }
   }
 
-  return initialState;
+  return [initialState, goalStack];
 };
 
 const changeBoard = async (node) => {
@@ -88,13 +86,7 @@ const changeBoard = async (node) => {
   }
 };
 
-const printTable = (puzzle) => {
-  let output = "";
-  for (let i = 0; i < puzzle.length; ++i) output += puzzle[i].toString() + "\n";
-  console.log(output);
-};
-
-const expand = (puzzle, puzzleOps) => {
+const expand = (puzzle, puzzleOps, setNodeCount) => {
   const expandedChildren = [];
   const opsToRemove = [];
   let blankRow, blankCol;
@@ -140,13 +132,16 @@ const expand = (puzzle, puzzleOps) => {
     }
   }
 
-  if (opsToRemove.length !== 4) expandedNodes += 1;
+  if (opsToRemove.length !== 4) {
+    expandedNodes += 1;
+  }
 
   for (var badOp of opsToRemove) {
     puzzleOps.splice(puzzleOps.indexOf(badOp), 1);
   }
 
   puzzle.insertIntoTree(puzzle, puzzleOps, expandedChildren);
+  nodeCount += puzzleOps.length - 1;
   return expandedChildren;
 };
 
@@ -154,10 +149,8 @@ const isRepeated = (puzzleCopy) => {
   const puzzleStr = puzzleCopy
     .map((innerArray) => innerArray.join(""))
     .join("");
-  for (var state of repeatedPuzzles) {
-    if (puzzleStr === state) return true;
-  }
-  return false;
+
+  return repeatedPuzzles.includes(puzzleStr);
 };
 
 const queueingFunction = (nodes, expandedChildren) => {
@@ -190,14 +183,12 @@ const uniformCostSearch = (nodes, expandedChildren) => {
 const manhattanDistance = (nodes, expandedChildren) => {
   for (var child of expandedChildren) {
     let totalDistance = 0;
-    for (var index of indexList) {
-      let i,
-        j = index;
-      if (child.problem[i][j] !== goal[i][j] && child.problem[i][j] !== 0) {
-        let a,
-          b = indexList[child.problem[i][j] - 1];
-        totalDistance += Math.abs(a - i) + Math.abs(b - j);
-      }
+    let tempChild = [].concat.apply([], child.problem);
+    let tempGoal = [].concat.apply([], goal);
+    for (let ptr = 0; ptr < tempChild.length; ptr++) {
+      let [i, j] = indexList[tempChild.indexOf(ptr)];
+      let [a, b] = indexList[tempGoal.indexOf(ptr)];
+      totalDistance += Math.abs(a - i) + Math.abs(b - j);
     }
     child.setGN(child.getDepth());
     child.setHN(totalDistance);
@@ -209,10 +200,11 @@ const manhattanDistance = (nodes, expandedChildren) => {
 const misplacedTile = (nodes, expandedChildren) => {
   for (var child of expandedChildren) {
     let numOfMisplacedTiles = 0;
-    for (var index of indexList) {
-      let [i, j] = index;
-      if (child.problem[i][j] !== goal[i][j] && child.problem[i][j] !== 0) {
-        numOfMisplacedTiles += 1;
+    let tempChild = [].concat.apply([], child.problem);
+    let tempGoal = [].concat.apply([], goal);
+    for (let ptr = 0; ptr < tempChild.length; ptr++) {
+      if (tempChild[ptr] !== tempGoal[ptr]) {
+        numOfMisplacedTiles++;
       }
     }
     child.setGN(child.getDepth());
@@ -237,11 +229,16 @@ const isGoalState = (puzzle) => {
 
 const getSolutionPath = (goalState, solutionPath) => {
   while (goalState.parent !== null) {
-    solutionPath.push(goalState);
+    solutionPath.push(
+      goalState.problem.map((innerArray) => innerArray.join("")).join("")
+    );
     goalState = goalState.parent;
   }
 
-  if (goalState.parent === null) solutionPath.push(goalState);
+  if (goalState.parent === null)
+    solutionPath.push(
+      goalState.problem.map((innerArray) => innerArray.join("")).join("")
+    );
 };
 
 export default aStarSearch;

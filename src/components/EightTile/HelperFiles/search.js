@@ -7,36 +7,44 @@ const search = async (
   goalBoard,
   algorithm,
   heuristic,
-  isStop
+  isStop,
+  setDepth,
+  setNodeCount
 ) => {
   const tempInitial = [...initialBoard];
   const tempGoal = [...goalBoard];
   const newInitial = [];
   const newGoal = [];
-  let node;
-
+  let goalData;
   //make arrays 2d for checking in search
+
   while (tempInitial.length) newInitial.push(tempInitial.splice(0, 3));
   while (tempGoal.length) newGoal.push(tempGoal.splice(0, 3));
-
   switch (algorithm) {
     case "A* Search":
-      node = await aStarSearch(newInitial, newGoal, heuristic, isStop);
+      goalData = await aStarSearch(
+        newInitial,
+        newGoal,
+        heuristic,
+        isStop,
+        setDepth,
+        setNodeCount
+      );
       break;
 
     case "Breadth First Search":
-      node = bfs();
+      goalData = bfs();
       break;
 
     case "Depth First Search":
-      node = dfs();
+      goalData = dfs();
       break;
 
     default:
       break;
   }
 
-  return node;
+  return goalData;
 };
 
 export default search;
