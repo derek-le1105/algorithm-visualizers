@@ -7,7 +7,7 @@ const search = async (
   goalBoard,
   algorithm,
   heuristic,
-  isStop,
+  depth,
   setDepth,
   setNodeCount
 ) => {
@@ -26,7 +26,7 @@ const search = async (
         newInitial,
         newGoal,
         heuristic,
-        isStop,
+        depth,
         setDepth,
         setNodeCount
       );

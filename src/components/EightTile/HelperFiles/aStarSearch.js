@@ -1,6 +1,5 @@
 import Puzzle from "./Puzzle";
 import PriorityQueue from "./PriorityQueue";
-import Stack from "./Stack";
 import Node from "./Node";
 import asyncTimeout from "./asyncTimeout";
 
@@ -10,23 +9,18 @@ var repeatedPuzzles;
 var expandedNodes;
 let nodeCount = 0;
 
+//prettier-ignore
 const indexList = [
-  [0, 0],
-  [0, 1],
-  [0, 2],
-  [1, 0],
-  [1, 1],
-  [1, 2],
-  [2, 0],
-  [2, 1],
-  [2, 2],
+  [0, 0],[0, 1],[0, 2],
+  [1, 0],[1, 1],[1, 2],
+  [2, 0],[2, 1],[2, 2],
 ];
 
 const aStarSearch = async (
   initialBoard,
   goalBoard,
   heuristic,
-  isStop,
+  depth,
   setDepth,
   setNodeCount
 ) => {
@@ -45,11 +39,14 @@ const aStarSearch = async (
   );
   let maxQueueSize = 0;
 
-  while (!nodesQueue.isEmpty() && !isStop) {
-    setNodeCount(++nodeCount);
+  while (!nodesQueue.isEmpty()) {
     var node = nodesQueue.get();
 
-    await changeBoard(node);
+    setNodeCount(++nodeCount);
+    setDepth(Math.max(depth, node.getDepth()));
+
+    //await changeBoard(node);
+    await asyncTimeout({ timeout: 1 });
     node.maxQueueSize = maxQueueSize;
     node.numExpandedNodes = expandedNodes;
     if (isGoalState(node)) {

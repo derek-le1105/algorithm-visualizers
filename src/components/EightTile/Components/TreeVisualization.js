@@ -7,6 +7,7 @@ import React, { useState, useEffect, useMemo } from "react";
 
 const TreeVisualization = ({ treeData, goalData }) => {
   const [graph, setGraph] = useState();
+  const [visNetwork, setVisNetwork] = useState();
   const version = useMemo(uuidv4, [[graph]]);
 
   const options = {
@@ -14,26 +15,29 @@ const TreeVisualization = ({ treeData, goalData }) => {
     height: "100%",
     edges: {
       color: "#000000",
+      arrows: {
+        to: false,
+      },
     },
     nodes: {
       shape: "box",
-      shapeProperties: {
-        interpolation: false, // 'true' for intensive zooming
-      },
+      physics: false,
+      color: "#e3e3dd",
+      margin: 3,
     },
     groups: {
-      solutionPath: { color: { background: "green" } },
+      solutionPath: { color: { background: "#00ff00" } },
     },
 
     layout: {
       hierarchical: {
         enabled: true,
         sortMethod: "directed",
+        shakeTowards: "roots",
       },
       improvedLayout: true,
       clusterThreshold: 200,
     },
-    physics: { enabled: false },
     interaction: {
       dragNodes: false,
       selectable: false,
@@ -75,15 +79,19 @@ const TreeVisualization = ({ treeData, goalData }) => {
     if (node == null) return;
     let nodeID = makeID(node.problem);
     let nodeLabel = makeLabel(node.problem);
-    let goalID = "";
+    let groupID = "";
     if (nodeID === goalData[goalData.length - 1]) {
-      goalID = "solutionPath";
+      groupID = "solutionPath";
       goalData.splice(goalData.length - 1, 1);
     }
-    nodeData.nodes.push({ id: nodeID, group: goalID, label: nodeLabel });
+    nodeData.nodes.push({ id: nodeID, group: groupID, label: nodeLabel });
     if (node.parent != null) {
       let parentID = makeID(node.parent.problem);
-      nodeData.edges.push({ from: parentID, to: nodeID });
+      nodeData.edges.push({
+        from: parentID,
+        to: nodeID,
+        color: { color: groupID === "solutionPath" ? "#00ff00" : "grey" },
+      });
     }
     traverse(node.left, nodeData);
     traverse(node.right, nodeData);

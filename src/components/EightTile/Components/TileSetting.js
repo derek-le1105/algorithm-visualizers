@@ -75,6 +75,7 @@ const TileSetting = ({ setTreeData, setGoalData }) => {
           break;
         default:
           if (!regex.test(input)) alert("Input is not eligible");
+          else regexPassed = false;
           break;
       }
     } while (regexPassed);
@@ -99,12 +100,14 @@ const TileSetting = ({ setTreeData, setGoalData }) => {
   const startSearch = async () => {
     if (!isSearching) {
       setIsSearching(true);
+      setDepth(0);
+      setNodeCount(0);
       let nodeData = await search(
         initialBoard,
         goalBoard,
         algorithm,
         heuristic,
-        isStop,
+        depth,
         setDepth,
         setNodeCount
       );
