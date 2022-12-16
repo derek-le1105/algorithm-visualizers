@@ -127,7 +127,7 @@ const TileSetting = ({ setTreeData, setGoalData }) => {
 
   return (
     <>
-      <div className="tile-setting-bar">
+      <div className="tile-setting-bar" id="sidebar">
         <div className="tile-board user">
           <span>Initial Board</span>
 

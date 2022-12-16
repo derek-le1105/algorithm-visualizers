@@ -66,23 +66,6 @@ const aStarSearch = async (
   return [initialState, goalStack];
 };
 
-const changeBoard = async (node) => {
-  await asyncTimeout({ timeout: 1 });
-  let board = document.getElementById("initial-board");
-  while (board.firstChild) board.removeChild(board.firstChild);
-
-  let count = 0;
-  for (let i = 0; i < node.problem.length; i++) {
-    for (let j = 0; j < node.problem[0].length; j++) {
-      let newTile = document.createElement("div");
-      newTile.className = `tile-${count}`;
-      newTile.innerHTML = node.problem[i][j];
-      board.appendChild(newTile);
-      ++count;
-    }
-  }
-};
-
 const expand = (puzzle, puzzleOps, setNodeCount) => {
   const expandedChildren = [];
   const opsToRemove = [];

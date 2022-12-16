@@ -6,9 +6,11 @@ import { v4 as uuidv4 } from "uuid";
 import React, { useState, useEffect, useMemo } from "react";
 
 const TreeVisualization = ({ treeData, goalData }) => {
-  const [graph, setGraph] = useState();
-  const [visNetwork, setVisNetwork] = useState();
-  const version = useMemo(uuidv4, [[graph]]);
+  const [thisGraph, setGraph] = useState({ nodes: [], edges: [] });
+  const [nodes, setNodes] = useState([]);
+  const version = useMemo(uuidv4, [[thisGraph]]);
+  var network = null;
+  var goalCounter = 0;
 
   const options = {
     autoResize: true,
@@ -23,7 +25,10 @@ const TreeVisualization = ({ treeData, goalData }) => {
       shape: "box",
       physics: false,
       color: "#e3e3dd",
-      margin: 3,
+      margin: {
+        left: 7,
+        right: 7,
+      },
     },
     groups: {
       solutionPath: { color: { background: "#00ff00" } },
@@ -40,16 +45,14 @@ const TreeVisualization = ({ treeData, goalData }) => {
     },
     interaction: {
       dragNodes: false,
-      selectable: false,
+      selectable: true,
       selectConnectedEdges: false,
       hoverConnectedEdges: false,
     },
   };
 
-  const events = {
-    select: function (event) {
-      var { nodes, edges } = event;
-    },
+  const handleNetwork = (nw) => {
+    network = nw;
   };
 
   useEffect(() => {
@@ -57,7 +60,8 @@ const TreeVisualization = ({ treeData, goalData }) => {
   }, [treeData]);
 
   const getNodeData = (data) => {
-    let nodeData = { nodes: [], edges: [] };
+    goalData.reverse();
+    const nodeData = { nodes: [], edges: [] };
     let nodeID;
     let nodeLabel;
     if (data.length === 0) return;
@@ -67,26 +71,36 @@ const TreeVisualization = ({ treeData, goalData }) => {
       nodeLabel = makeLabel(data);
 
       nodeData.nodes.push({ id: nodeID, label: nodeLabel });
+      setGraph({ ...nodeData });
     } else {
       //push new edges of parent to children
       //{from: 'parent_id', to: 'child_id'}
       traverse(data, nodeData);
+      setGraph({ ...nodeData });
+      replayButton();
     }
-    setGraph(nodeData);
   };
 
   const traverse = (node, nodeData) => {
     if (node == null) return;
-    let nodeID = makeID(node.problem);
-    let nodeLabel = makeLabel(node.problem);
+    const nodeID = makeID(node.problem);
+    const nodeLabel = makeLabel(node.problem);
     let groupID = "";
-    if (nodeID === goalData[goalData.length - 1]) {
-      groupID = "solutionPath";
-      goalData.splice(goalData.length - 1, 1);
+    if (goalCounter < goalData.length) {
+      let b = parseInt(goalData[goalCounter]);
+      if (nodeID === b) {
+        groupID = "solutionPath";
+        goalCounter++;
+      }
     }
     nodeData.nodes.push({ id: nodeID, group: groupID, label: nodeLabel });
+    setNodes([...nodeData.nodes], {
+      id: nodeID,
+      group: groupID,
+      label: nodeLabel,
+    });
     if (node.parent != null) {
-      let parentID = makeID(node.parent.problem);
+      const parentID = makeID(node.parent.problem);
       nodeData.edges.push({
         from: parentID,
         to: nodeID,
@@ -100,7 +114,10 @@ const TreeVisualization = ({ treeData, goalData }) => {
   };
 
   const makeID = (puzzleState) => {
-    return puzzleState.map((innerArray) => innerArray.join("")).join("");
+    let a = parseInt(
+      puzzleState.map((innerArray) => innerArray.join("")).join("")
+    );
+    return a;
   };
 
   const makeLabel = (puzzleState) => {
@@ -116,17 +133,42 @@ const TreeVisualization = ({ treeData, goalData }) => {
       return puzzleState.map((innerArray) => innerArray.join("")).join("\n");
   };
 
+  const replayButton = () => {
+    console.log(thisGraph);
+    console.log(nodes);
+    let tileSetting = document
+      .getElementById("sidebar")
+      .getElementsByClassName("info-container")[0];
+    console.log(tileSetting);
+    const replaybtn = document.createElement("button");
+    replaybtn.textContent = "Replay Goal Path";
+    replaybtn.addEventListener("click", goalReplay);
+    tileSetting.appendChild(replaybtn);
+  };
+
+  const goalReplay = () => {
+    console.log(thisGraph);
+    //let a = network.getPosition(goalData[0]);
+    console.log(network.getPosition(goalData[0]));
+    //console.log(network.getNodeAt(a));
+    //let a = network.selectNodes(goalData, true);
+    /*for (var node of temp) {
+       network.selectNodes([node]);
+       network.focus(node);
+
+       console.log(node);
+       network.focus(JSON.stringify(node));
+     }*/
+  };
+
   return (
     <>
       <div className="tree-visualization">
         <Graph
           key={version}
-          graph={graph}
+          graph={thisGraph}
           options={options}
-          events={events}
-          getNetwork={(network) => {
-            //  if you want access to vis.js network api you can set the state in a parent component using this property
-          }}
+          getNetwork={handleNetwork}
         />
       </div>
     </>
