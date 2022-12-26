@@ -1,14 +1,15 @@
 import "./TileSetting.css";
 
 import search from "../HelperFiles/search";
+import Node from "../HelperFiles/Node";
 
 import { useState, useEffect } from "react";
 
 const inital = [1, 2, 3, 4, 5, 6, 7, 8, 0];
 const goal = [1, 2, 3, 4, 5, 6, 7, 8, 0];
 
-const TileSetting = ({ setTreeData, setGoalData }) => {
-  const [initialBoard, setInitialBoard] = useState(inital);
+const TileSetting = ({ setTreeData, setGoalData, showReplay }) => {
+  const [initialBoard, setInitialBoard] = useState(inital); //initial and goal are puzzle objects
   const [goalBoard, setGoalBoard] = useState(goal);
   const [algorithm, setAlgorithm] = useState("A* Search");
   const [heuristic, setHeuristic] = useState("Uniform Cost Search");
@@ -122,7 +123,12 @@ const TileSetting = ({ setTreeData, setGoalData }) => {
   };
 
   useEffect(() => {
-    setTreeData(initialBoard);
+    const newArr = [];
+    newArr.push(initialBoard.slice(0, 3));
+    newArr.push(initialBoard.slice(3, 6));
+    newArr.push(initialBoard.slice(6, 9));
+
+    setTreeData(new Node(newArr));
   }, [initialBoard]);
 
   return (
@@ -205,6 +211,7 @@ const TileSetting = ({ setTreeData, setGoalData }) => {
           <span>{`Depth: ${depth}`}</span>
           <span>{`Nodes Traveled: ${nodeCount}`}</span>
         </div>
+        {showReplay && <button id="goal-replay">Replay Goal Path</button>}
       </div>
     </>
   );

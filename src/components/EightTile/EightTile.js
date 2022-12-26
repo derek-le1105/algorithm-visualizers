@@ -8,16 +8,20 @@ import "./EightTile.css";
 
 const EightTile = () => {
   const [tutorialClicked, setTutorialClicked] = useState(false);
-  const [treeData, setTreeData] = useState([1, 2, 3, 4, 5, 6, 7, 8, 0]);
-  const [goalData, setGoalData] = useState([1, 2, 3, 4, 5, 6, 7, 8, 0]);
+  const [treeData, setTreeData] = useState(
+    new Node([
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 0],
+    ])
+  );
+  const [goalData, setGoalData] = useState([]);
+
+  const [showReplay, setShowReplay] = useState(false);
 
   const handleTutorialClick = () => {
     setTutorialClicked(true);
   };
-
-  useEffect(() => {
-    console.log(treeData);
-  }, [treeData]);
 
   return (
     <>
@@ -37,10 +41,13 @@ const EightTile = () => {
       <TileSetting
         setTreeData={setTreeData}
         setGoalData={setGoalData}
+        showReplay={showReplay}
       ></TileSetting>
+
       <TreeVisualization
         treeData={treeData}
         goalData={goalData}
+        setShowReplay={setShowReplay}
       ></TreeVisualization>
     </>
   );

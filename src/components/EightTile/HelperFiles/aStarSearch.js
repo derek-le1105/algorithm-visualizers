@@ -28,8 +28,9 @@ const aStarSearch = async (
   goal = goalBoard;
   repeatedPuzzles = [];
   expandedNodes = 0;
-  const puzzle = new Puzzle(initialBoard);
-  const initialState = new Node(puzzle.state);
+  //const puzzle = new Puzzle(initialBoard);
+  //const initialState = new Node(puzzle.state);
+  const initialState = new Node(initialBoard);
   const nodesQueue = new PriorityQueue();
   const goalStack = [];
   queueingFunction(nodesQueue, [initialState]);
@@ -51,12 +52,13 @@ const aStarSearch = async (
     node.numExpandedNodes = expandedNodes;
     if (isGoalState(node)) {
       getSolutionPath(node, goalStack);
+      console.log(goalStack);
       break;
     } else {
       //console.log(node);
       queueingFunction(
         nodesQueue,
-        expand(node, puzzle.getOperators(node.problem), setNodeCount)
+        expand(node, getOperators(node.problem), setNodeCount)
       );
       if (nodesQueue.pQueue.length > maxQueueSize)
         maxQueueSize = nodesQueue.pQueue.length;
@@ -219,6 +221,63 @@ const getSolutionPath = (goalState, solutionPath) => {
     solutionPath.push(
       goalState.problem.map((innerArray) => innerArray.join("")).join("")
     );
+};
+
+const getBlankSpace = (puzzle) => {
+  for (let i = 0; i < puzzle.length; i++) {
+    for (let j = 0; j < puzzle.length; j++) {
+      if (puzzle[i][j] === 0) {
+        return [i, j];
+      }
+    }
+  }
+};
+
+const getOperators = (puzzle) => {
+  var opList = [];
+  let [blankRow, blankCol] = getBlankSpace(puzzle);
+  if (blankRow === 0) {
+    //order is left, right, up, down    ULRD
+    if (blankCol === 0) {
+      opList.push("Right");
+      opList.push("Down");
+    } else if (blankCol === 1) {
+      opList.push("Left");
+      opList.push("Right");
+      opList.push("Down");
+    } else if (blankCol === 2) {
+      opList.push("Left");
+      opList.push("Down");
+    }
+  } else if (blankRow === 1) {
+    if (blankCol === 0) {
+      opList.push("Right");
+      opList.push("Up");
+      opList.push("Down");
+    } else if (blankCol === 1) {
+      opList.push("Up");
+      opList.push("Left");
+      opList.push("Right");
+      opList.push("Down");
+    } else if (blankCol === 2) {
+      opList.push("Up");
+      opList.push("Left");
+      opList.push("Down");
+    }
+  } else if (blankRow === 2) {
+    if (blankCol === 0) {
+      opList.push("Up");
+      opList.push("Right");
+    } else if (blankCol === 1) {
+      opList.push("Up");
+      opList.push("Left");
+      opList.push("Right");
+    } else if (blankCol === 2) {
+      opList.push("Up");
+      opList.push("Left");
+    }
+  }
+  return opList;
 };
 
 export default aStarSearch;
