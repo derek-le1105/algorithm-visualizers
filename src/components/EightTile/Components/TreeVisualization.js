@@ -1,11 +1,13 @@
 import "./TreeVisualization.css";
 
+import asyncTimeout from "../HelperFiles/asyncTimeout";
+
 import Graph from "react-vis-network-graph";
 import { v4 as uuidv4 } from "uuid";
 
 import React, { useState, useEffect, useMemo } from "react";
 
-const TreeVisualization = ({ treeData, goalData }) => {
+const TreeVisualization = ({ treeData, goalData, setShowReplay }) => {
   const [thisGraph, setGraph] = useState({ nodes: [], edges: [] });
   const [nodes, setNodes] = useState([]);
   const version = useMemo(uuidv4, [[thisGraph]]);
@@ -59,6 +61,10 @@ const TreeVisualization = ({ treeData, goalData }) => {
     getNodeData(treeData);
   }, [treeData]);
 
+  useEffect(() => {
+    replayButton();
+  }, [thisGraph.nodes]);
+
   const getNodeData = (data) => {
     goalData.reverse();
     const nodeData = { nodes: [], edges: [] };
@@ -77,7 +83,7 @@ const TreeVisualization = ({ treeData, goalData }) => {
       //{from: 'parent_id', to: 'child_id'}
       traverse(data, nodeData);
       setGraph({ ...nodeData });
-      replayButton();
+      setShowReplay(true);
     }
   };
 
@@ -87,7 +93,7 @@ const TreeVisualization = ({ treeData, goalData }) => {
     const nodeLabel = makeLabel(node.problem);
     let groupID = "";
     if (goalCounter < goalData.length) {
-      let b = parseInt(goalData[goalCounter]);
+      let b = goalData[goalCounter];
       if (nodeID === b) {
         groupID = "solutionPath";
         goalCounter++;
@@ -114,9 +120,7 @@ const TreeVisualization = ({ treeData, goalData }) => {
   };
 
   const makeID = (puzzleState) => {
-    let a = parseInt(
-      puzzleState.map((innerArray) => innerArray.join("")).join("")
-    );
+    let a = puzzleState.map((innerArray) => innerArray.join("")).join("");
     return a;
   };
 
@@ -136,29 +140,26 @@ const TreeVisualization = ({ treeData, goalData }) => {
   const replayButton = () => {
     console.log(thisGraph);
     console.log(nodes);
-    let tileSetting = document
-      .getElementById("sidebar")
-      .getElementsByClassName("info-container")[0];
-    console.log(tileSetting);
-    const replaybtn = document.createElement("button");
-    replaybtn.textContent = "Replay Goal Path";
-    replaybtn.addEventListener("click", goalReplay);
-    tileSetting.appendChild(replaybtn);
+    // let tileSetting = document
+    //   .getElementById("sidebar")
+    //   .getElementsByClassName("info-container")[0];
+    // console.log(tileSetting);
+    //const replaybtn = document.createElement("button");
+    //replaybtn.textContent = "Replay Goal Path";
+    const replaybtn = document.getElementById("goal-replay");
+    if (replaybtn) replaybtn.addEventListener("click", goalReplay);
+    //tileSetting.appendChild(replaybtn);
   };
 
-  const goalReplay = () => {
-    console.log(thisGraph);
-    //let a = network.getPosition(goalData[0]);
-    console.log(network.getPosition(goalData[0]));
-    //console.log(network.getNodeAt(a));
-    //let a = network.selectNodes(goalData, true);
-    /*for (var node of temp) {
-       network.selectNodes([node]);
-       network.focus(node);
-
-       console.log(node);
-       network.focus(JSON.stringify(node));
-     }*/
+  const goalReplay = async () => {
+    for (var node of goalData) {
+      //console.log(node);
+      let currNodePos = network.getPosition(node);
+      //console.log(currNodePos);
+      network.selectNodes([node]);
+      network.moveTo({ position: currNodePos, scale: 1.5, animation: true });
+      await asyncTimeout({ timeout: 1000 });
+    }
   };
 
   return (
@@ -170,6 +171,7 @@ const TreeVisualization = ({ treeData, goalData }) => {
           options={options}
           getNetwork={handleNetwork}
         />
+        {console.log(thisGraph)}
       </div>
     </>
   );
