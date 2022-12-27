@@ -9,7 +9,6 @@ import React, { useState, useEffect, useMemo } from "react";
 
 const TreeVisualization = ({ treeData, goalData, setShowReplay }) => {
   const [thisGraph, setGraph] = useState({ nodes: [], edges: [] });
-  const [nodes, setNodes] = useState([]);
   const version = useMemo(uuidv4, [[thisGraph]]);
   var network = null;
   var goalCounter = 0;
@@ -18,18 +17,47 @@ const TreeVisualization = ({ treeData, goalData, setShowReplay }) => {
     autoResize: true,
     height: "100%",
     edges: {
-      color: "#000000",
+      color: { color: "#000000", highlight: "#00ff00", inherit: "from" },
       arrows: {
         to: false,
       },
     },
     nodes: {
-      shape: "box",
+      shape: "custom",
       physics: false,
       color: "#e3e3dd",
       margin: {
         left: 7,
         right: 7,
+      },
+      ctxRenderer: function ({
+        ctx,
+        id,
+        x,
+        y,
+        state: { selected, hover },
+        style,
+        label,
+      }) {
+        const r = style.size;
+        ctx.beginPath();
+        ctx.moveTo(x - r, y - r);
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            ctx.save();
+            ctx.fillStyle = "white";
+            if (goalData.includes(id)) ctx.strokeStyle = "green";
+            else ctx.strokeStyle = "black";
+            ctx.translate(5 + j * 15, 5 + i * 15);
+            ctx.strokeRect(x - r / 2 - 10, y - r - 3, 15, 15);
+            ctx.fillRect(x - r / 2 - 10, y - r - 3, 15, 15);
+            ctx.restore();
+          }
+        }
+        let lines = label.split("\n");
+        for (let i = 0; i < lines.length; ++i) {
+          ctx.fillText(lines[i], x - r / 2, y - r / 2 + i * 15);
+        }
       },
     },
     groups: {
@@ -47,7 +75,7 @@ const TreeVisualization = ({ treeData, goalData, setShowReplay }) => {
     },
     interaction: {
       dragNodes: false,
-      selectable: true,
+      selectable: false,
       selectConnectedEdges: false,
       hoverConnectedEdges: false,
     },
@@ -100,11 +128,6 @@ const TreeVisualization = ({ treeData, goalData, setShowReplay }) => {
       }
     }
     nodeData.nodes.push({ id: nodeID, group: groupID, label: nodeLabel });
-    setNodes([...nodeData.nodes], {
-      id: nodeID,
-      group: groupID,
-      label: nodeLabel,
-    });
     if (node.parent != null) {
       const parentID = makeID(node.parent.problem);
       nodeData.edges.push({
@@ -125,21 +148,24 @@ const TreeVisualization = ({ treeData, goalData, setShowReplay }) => {
   };
 
   const makeLabel = (puzzleState) => {
-    if (puzzleState.length > 3) {
-      let label = "";
-      for (let i = 0; i < puzzleState.length; i++) {
-        if (!((i + 1) % 3) && i !== 0) {
-          label += JSON.stringify(puzzleState[i]) + "\n";
-        } else label += JSON.stringify(puzzleState[i]) + " ";
+    let newLabel = "";
+    for (let i = 0; i < puzzleState[0].length; i++) {
+      for (let j = 0; j < puzzleState.length; j++) {
+        let temp = puzzleState[i][j];
+        if (puzzleState[i][j] === 0) temp = "  ";
+
+        if (j === 2) {
+          newLabel += temp + "\n";
+        } else {
+          newLabel += temp + "   ";
+        }
       }
-      return label;
-    } else
-      return puzzleState.map((innerArray) => innerArray.join("")).join("\n");
+    }
+    return newLabel;
   };
 
   const replayButton = () => {
     console.log(thisGraph);
-    console.log(nodes);
     // let tileSetting = document
     //   .getElementById("sidebar")
     //   .getElementsByClassName("info-container")[0];

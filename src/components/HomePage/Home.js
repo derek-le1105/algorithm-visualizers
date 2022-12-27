@@ -5,6 +5,8 @@ import sort from "../../Assets/Images/sort.PNG";
 import sortGif from "../../Assets/Gifs/sort-gif.gif";
 import pathfind from "../../Assets/Images/pathfind.PNG";
 import pathfindGif from "../../Assets/Gifs/pathfind-gif.gif";
+import eighttile from "../../Assets/Images/eightile.PNG";
+import eighttileGif from "../../Assets/Gifs/eight-tile-gif.gif";
 import NavBar from "../NavBar/NavBar";
 
 const Home = () => {
@@ -31,8 +33,8 @@ const Home = () => {
             link={"pathfinding-visualizer"}
           ></Module>
           <Module
-            image={pathfind}
-            gif={pathfindGif}
+            image={eighttile}
+            gif={eighttileGif}
             title={"8 Tile Solver"}
             link={"eight-tile"}
           ></Module>
