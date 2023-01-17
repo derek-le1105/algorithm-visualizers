@@ -12,8 +12,11 @@ import NavBar from "../NavBar/NavBar";
 
 // TODO: Fix bug with holding down mouse while on a wall, gives error cursor sometimes
 
-let ROW = 36,
-  COLUMN = 81,
+let w = window.innerWidth,
+  h = window.innerHeight - (70 + 75); //navbar is of height 70, settingbar is of height 75
+
+let ROW = Math.floor(h / 25),
+  COLUMN = Math.floor(w / 25),
   START_NODE = [Math.floor(ROW / 2), Math.floor(COLUMN / 4)],
   END_NODE = [Math.floor(ROW / 2), Math.floor((3 * COLUMN) / 4)];
 
