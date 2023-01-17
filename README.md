@@ -41,7 +41,7 @@ $ npm start
 
 ### Sorting Visualizer
 
-![Sorting Visualizer Demo](./demo-assets/sorting-demo.gif)
+<img src="./demo-assets/sorting-demo.gif" alt="Sorting Visualizer Demo" width="100%" height="100%">
 
 #### Features
 
