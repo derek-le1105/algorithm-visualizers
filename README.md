@@ -62,11 +62,11 @@ $ npm start
 
 ### Pathfinding Visualizer
 
-![Pathfinding Visualizer Demo](./demo-assets/pathfinding-demo.gif)
+<img src="./demo-assets/pathfinding-demo.gif" alt="Pathfinding Visualizer Demo" width="100%" height="100%">
 
 ### 8-Tile Solver
 
-![8-Tile Demo](./demo-assets/puzzle-demo.gif)
+<img src="./demo-assets/puzzle-demo.gif" alt="8-Tile Demo" width="100%" height="100%">
 
 #### Features
 
