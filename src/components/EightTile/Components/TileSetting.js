@@ -5,11 +5,11 @@ import Node from "../HelperFiles/Node";
 
 import { useState, useEffect } from "react";
 
-const inital = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+const initial = [1, 2, 3, 4, 5, 6, 7, 8, 0];
 const goal = [1, 2, 3, 4, 5, 6, 7, 8, 0];
 
 const TileSetting = ({ setTreeData, setGoalData, showReplay }) => {
-  const [initialBoard, setInitialBoard] = useState(inital); //initial and goal are puzzle objects
+  const [initialBoard, setInitialBoard] = useState(initial); //initial and goal are puzzle objects
   const [goalBoard, setGoalBoard] = useState(goal);
   const [algorithm, setAlgorithm] = useState("A* Search");
   const [heuristic, setHeuristic] = useState("Uniform Cost Search");
@@ -89,13 +89,18 @@ const TileSetting = ({ setTreeData, setGoalData, showReplay }) => {
   };
 
   const getAlgorithmChange = (e) => {
-    console.log(e.target.value);
     setAlgorithm(e.target.value);
   };
 
   const getHeuristicChange = (e) => {
-    console.log(e.target.value);
     setHeuristic(e.target.value);
+  };
+
+  const resetBoard = () => {
+    setInitialBoard(initial);
+    setGoalBoard(goal);
+    setNodeCount(0);
+    setDepth(0);
   };
 
   const startSearch = async () => {
@@ -202,7 +207,7 @@ const TileSetting = ({ setTreeData, setGoalData, showReplay }) => {
             <button onClick={startSearch} disabled={isSearching}>
               Start Search
             </button>
-            <button>Reset</button>
+            <button onClick={resetBoard}>Reset</button>
             <button onClick={stopSearch}>Stop</button>
           </div>
         </div>
