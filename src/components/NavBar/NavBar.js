@@ -5,6 +5,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 const NavBar = () => {
+  const handleMenuClick = () => {
+    var comps = document.getElementsByClassName("link-component");
+    for (let i = 0; i < comps.length; i++) {
+      if (comps[i].style.display === "block") comps[i].style.display = "none";
+      else comps[i].style.display = "block";
+    }
+  };
+
   return (
     <div className="nav-bar">
       <NavLink to="/" className="main">
@@ -38,7 +46,11 @@ const NavBar = () => {
       >
         <h4>Eight Tile</h4>
       </NavLink>
-      <FontAwesomeIcon icon={faBars} className="mobile-menu"></FontAwesomeIcon>
+      <FontAwesomeIcon
+        icon={faBars}
+        className="mobile-menu"
+        onClick={handleMenuClick}
+      ></FontAwesomeIcon>
     </div>
   );
 };

@@ -11,7 +11,12 @@ const Button = (props) => {
     <>
       <button
         onClick={taskClick}
-        style={{ margin: "15px", padding: "0 30px", fontWeight: "bold" }}
+        style={{
+          margin: "15px",
+          padding: "0 30px",
+          fontWeight: "bold",
+          borderRadius: "5px",
+        }}
       >
         {props.title}
       </button>
