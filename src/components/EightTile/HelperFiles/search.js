@@ -33,7 +33,7 @@ const search = async (
       break;
 
     case "Breadth First Search":
-      goalData = bfs();
+      goalData = await bfs(newInitial, newGoal, depth, setDepth, setNodeCount);
       break;
 
     case "Depth First Search":
