@@ -10,7 +10,7 @@ Algorithm Visualizer is a web application built utilizing ReactJS.
 - [Modules](#modules)
   - [Sorting Visualizer](#sorting-visualizer)
   - [Pathfinding Visualizer](#pathfinding-visualizer)
-  - [8-Tree Solver](#8-tree-solver)
+  - [8-Tile Solver](#8-tile-solver)
 
 ## General Info
 
@@ -41,6 +41,40 @@ $ npm start
 
 ### Sorting Visualizer
 
+![Sorting Visualizer Demo](./demo-assets/sorting-demo.gif)
+
+#### Features
+
+- Array randomization
+- Custom size configuration of array (up to 200 elements)
+  - Double clicking the value to the right of the slider will prompt a text box to input a new desired value
+- Custom speed configuration of array sorting
+- Sorting algorithm selection
+- Counter of array comparisons and array accesses when sorting
+
+#### Instructions
+
+1. Select a sorting algorithm in the dropdown menu
+2. Click the 'Start' button
+   - While the array is being sorting, all buttons/sliders will be disabled
+
+> There isn't a stop/pause feature while the array is being sorted currently
+
 ### Pathfinding Visualizer
 
-### 8-Tree Solver
+![Pathfinding Visualizer Demo](./demo-assets/pathfinding-demo.gif)
+
+### 8-Tile Solver
+
+![8-Tile Demo](./demo-assets/puzzle-demo.gif)
+
+#### Features
+
+- Custom initial puzzle board configuration as well as a goal board configuration
+- Puzzle board randomization that generates solvable puzzles
+- Search algorithm selection
+  - Heuristic selection for A Star Search algorithm
+- Tree generation of all nodes traversed in goal board searching
+- Goal path replay functionality
+
+> Although the solver can find the desired goal board configuration, it should be noted that harder puzzles will generate large trees, which will make the puzzle solver difficult to navigate and use.
