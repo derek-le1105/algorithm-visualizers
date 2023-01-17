@@ -1,7 +1,12 @@
-import Puzzle from "./Puzzle";
 import PriorityQueue from "./PriorityQueue";
 import Node from "./Node";
 import asyncTimeout from "./asyncTimeout";
+import {
+  checkGoalState,
+  getSolutionPath,
+  getOperators,
+  findAvailableMoves,
+} from "./treeSearchFiles.js";
 
 var currHeuristic;
 var goal;
@@ -32,7 +37,7 @@ const aStarSearch = async (
   //const initialState = new Node(puzzle.state);
   const initialState = new Node(initialBoard);
   const nodesQueue = new PriorityQueue();
-  const goalStack = [];
+  let goalStack = [];
   queueingFunction(nodesQueue, [initialState]);
 
   repeatedPuzzles.push(
@@ -50,15 +55,18 @@ const aStarSearch = async (
     await asyncTimeout({ timeout: 1 });
     node.maxQueueSize = maxQueueSize;
     node.numExpandedNodes = expandedNodes;
-    if (isGoalState(node)) {
-      getSolutionPath(node, goalStack);
-      console.log(goalStack);
+    if (checkGoalState(node, goal)) {
+      goalStack = getSolutionPath(node);
       break;
     } else {
-      //console.log(node);
       queueingFunction(
         nodesQueue,
-        expand(node, getOperators(node.problem), setNodeCount)
+        findAvailableMoves(
+          node,
+          getOperators(node.problem),
+          repeatedPuzzles,
+          setNodeCount
+        )
       );
       if (nodesQueue.pQueue.length > maxQueueSize)
         maxQueueSize = nodesQueue.pQueue.length;
@@ -66,73 +74,6 @@ const aStarSearch = async (
   }
 
   return [initialState, goalStack];
-};
-
-const expand = (puzzle, puzzleOps, setNodeCount) => {
-  const expandedChildren = [];
-  const opsToRemove = [];
-  let blankRow, blankCol;
-  for (let i = 0; i < puzzle.problem.length; i++) {
-    for (let j = 0; j < puzzle.problem.length; j++) {
-      if (puzzle.problem[i][j] === 0) {
-        blankRow = i;
-        blankCol = j;
-        break;
-      }
-    }
-  }
-
-  for (var op of puzzleOps) {
-    let puzzleCopy = JSON.parse(JSON.stringify(puzzle.problem));
-    let tileToSwap;
-    if (op === "Up") {
-      tileToSwap = puzzleCopy[blankRow - 1][blankCol];
-      puzzleCopy[blankRow][blankCol] = tileToSwap;
-      puzzleCopy[blankRow - 1][blankCol] = 0;
-    } else if (op === "Left") {
-      tileToSwap = puzzleCopy[blankRow][blankCol - 1];
-      puzzleCopy[blankRow][blankCol] = tileToSwap;
-      puzzleCopy[blankRow][blankCol - 1] = 0;
-    } else if (op === "Right") {
-      tileToSwap = puzzleCopy[blankRow][blankCol + 1];
-      puzzleCopy[blankRow][blankCol] = tileToSwap;
-      puzzleCopy[blankRow][blankCol + 1] = 0;
-    } else if (op === "Down") {
-      tileToSwap = puzzleCopy[blankRow + 1][blankCol];
-      puzzleCopy[blankRow][blankCol] = tileToSwap;
-      puzzleCopy[blankRow + 1][blankCol] = 0;
-    }
-    if (!isRepeated(puzzleCopy)) {
-      repeatedPuzzles.push(
-        puzzleCopy.map((innerArray) => innerArray.join("")).join("")
-      );
-      let tempNode = new Node(puzzleCopy);
-      tempNode.setDepth(puzzle.getDepth() + 1);
-      expandedChildren.push(tempNode);
-    } else {
-      opsToRemove.push(op);
-    }
-  }
-
-  if (opsToRemove.length !== 4) {
-    expandedNodes += 1;
-  }
-
-  for (var badOp of opsToRemove) {
-    puzzleOps.splice(puzzleOps.indexOf(badOp), 1);
-  }
-
-  puzzle.insertIntoTree(puzzle, puzzleOps, expandedChildren);
-  nodeCount += puzzleOps.length - 1;
-  return expandedChildren;
-};
-
-const isRepeated = (puzzleCopy) => {
-  const puzzleStr = puzzleCopy
-    .map((innerArray) => innerArray.join(""))
-    .join("");
-
-  return repeatedPuzzles.includes(puzzleStr);
 };
 
 const queueingFunction = (nodes, expandedChildren) => {
@@ -196,7 +137,7 @@ const misplacedTile = (nodes, expandedChildren) => {
   }
 };
 
-const isGoalState = (puzzle) => {
+/*const isGoalState = (puzzle) => {
   //console.log(puzzle);
   const puzzleData = puzzle.problem;
   for (let i = 0; i < puzzleData.length; i++) {
@@ -207,9 +148,9 @@ const isGoalState = (puzzle) => {
     }
   }
   return true;
-};
+};*/
 
-const getSolutionPath = (goalState, solutionPath) => {
+/*const getSolutionPath = (goalState, solutionPath) => {
   while (goalState.parent !== null) {
     solutionPath.push(
       goalState.problem.map((innerArray) => innerArray.join("")).join("")
@@ -221,9 +162,9 @@ const getSolutionPath = (goalState, solutionPath) => {
     solutionPath.push(
       goalState.problem.map((innerArray) => innerArray.join("")).join("")
     );
-};
+};*/
 
-const getBlankSpace = (puzzle) => {
+/*const getBlankSpace = (puzzle) => {
   for (let i = 0; i < puzzle.length; i++) {
     for (let j = 0; j < puzzle.length; j++) {
       if (puzzle[i][j] === 0) {
@@ -278,6 +219,6 @@ const getOperators = (puzzle) => {
     }
   }
   return opList;
-};
+};*/
 
 export default aStarSearch;
