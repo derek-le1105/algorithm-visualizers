@@ -59,6 +59,9 @@ const TreeVisualization = ({ treeData, goalData, setShowReplay }) => {
           ctx.fillText(lines[i], x - r / 2, y - r / 2 + i * 15);
         }
       },
+      shapeProperties: {
+        interpolation: false, // 'true' for intensive zooming
+      },
     },
     groups: {
       solutionPath: { color: { background: "#00ff00" } },
@@ -165,23 +168,13 @@ const TreeVisualization = ({ treeData, goalData, setShowReplay }) => {
   };
 
   const replayButton = () => {
-    console.log(thisGraph);
-    // let tileSetting = document
-    //   .getElementById("sidebar")
-    //   .getElementsByClassName("info-container")[0];
-    // console.log(tileSetting);
-    //const replaybtn = document.createElement("button");
-    //replaybtn.textContent = "Replay Goal Path";
     const replaybtn = document.getElementById("goal-replay");
     if (replaybtn) replaybtn.addEventListener("click", goalReplay);
-    //tileSetting.appendChild(replaybtn);
   };
 
   const goalReplay = async () => {
     for (var node of goalData) {
-      //console.log(node);
       let currNodePos = network.getPosition(node);
-      //console.log(currNodePos);
       network.selectNodes([node]);
       network.moveTo({ position: currNodePos, scale: 1.5, animation: true });
       await asyncTimeout({ timeout: 1000 });
