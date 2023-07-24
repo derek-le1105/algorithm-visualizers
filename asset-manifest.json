@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/algorithm-visualizers/static/css/main.10432cea.css",
-    "main.js": "/algorithm-visualizers/static/js/main.581473d8.js",
+    "main.css": "/algorithm-visualizers/static/css/main.de9162b6.css",
+    "main.js": "/algorithm-visualizers/static/js/main.e0ec60c4.js",
     "static/js/787.a2ca6926.chunk.js": "/algorithm-visualizers/static/js/787.a2ca6926.chunk.js",
     "static/media/pathfind-gif.gif": "/algorithm-visualizers/static/media/pathfind-gif.f89cda43ab7a73ba39e4.gif",
     "static/media/pathfind.PNG": "/algorithm-visualizers/static/media/pathfind.2b8e5608c1a78a535897.PNG",
@@ -10,12 +10,12 @@
     "static/media/eightile.PNG": "/algorithm-visualizers/static/media/eightile.f83ac40688bebedee445.PNG",
     "static/media/sort.PNG": "/algorithm-visualizers/static/media/sort.1068745996d52a1c739a.PNG",
     "index.html": "/algorithm-visualizers/index.html",
-    "main.10432cea.css.map": "/algorithm-visualizers/static/css/main.10432cea.css.map",
-    "main.581473d8.js.map": "/algorithm-visualizers/static/js/main.581473d8.js.map",
+    "main.de9162b6.css.map": "/algorithm-visualizers/static/css/main.de9162b6.css.map",
+    "main.e0ec60c4.js.map": "/algorithm-visualizers/static/js/main.e0ec60c4.js.map",
     "787.a2ca6926.chunk.js.map": "/algorithm-visualizers/static/js/787.a2ca6926.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.10432cea.css",
-    "static/js/main.581473d8.js"
+    "static/css/main.de9162b6.css",
+    "static/js/main.e0ec60c4.js"
   ]
 }
