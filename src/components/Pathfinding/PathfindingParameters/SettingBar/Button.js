@@ -3,6 +3,14 @@ const Button = (props) => {
     props.task();
   };
 
+  const buttonColor = () => {
+    return props.color ? props.color : "white";
+  };
+
+  const textColor = () => {
+    return props.color ? "white" : "black";
+  };
+
   return (
     <>
       <button
@@ -12,6 +20,8 @@ const Button = (props) => {
           padding: "0 30px",
           fontWeight: "bold",
           borderRadius: "5px",
+          backgroundColor: buttonColor(),
+          color: textColor(),
         }}
       >
         {props.title}

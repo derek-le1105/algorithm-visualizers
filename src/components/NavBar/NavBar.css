@@ -28,7 +28,6 @@
 @media screen and (max-width:600px) {
     .nav-bar{
         position: sticky;
-        position: -webkit-sticky;
         display: flex;
         top:0;
         flex-direction: column;
@@ -48,9 +47,20 @@
 
     .link-component{
         display: none;
+        background-color: grey;
+        width: 100%;
     }
 
     .mobile-menu{
        opacity: 1;
+       position: absolute;
+       top: 0;
+       right: 0;
+       padding: 25px;
+    }
+
+    h4{
+        color: white;
+        text-align: center;
     }
 }

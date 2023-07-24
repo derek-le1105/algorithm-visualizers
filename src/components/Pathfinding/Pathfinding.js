@@ -160,7 +160,7 @@ const Visualizer = () => {
       <div className="grid">
         {grid.map((row, rowIdx) => {
           return (
-            <div key={rowIdx}>
+            <div className={`row ${rowIdx}`} key={rowIdx}>
               {row.map((node, nodeIdx) => {
                 return (
                   <Node
